@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "My Orders";
+    Layout = "~/Views/Customer/_CustomerLayout.cshtml";
+}
+
+@section styles{
+}
+<div class="container pb-5 mb-2 mb-md-4">
+    <div class="row">
+        <section class="col-lg-12">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
+                <h2 class="h6 text-light mb-0">Order Summary</h2><a class="btn btn-outline-primary btn-sm pl-2" href="/Customer"><i class="czi-arrow-left mr-2"></i>Continue shopping</a>
+            </div>
+            @if (ViewBag.Bills.Count == 0)
+            {
+                <h3 class="ml-auto text-danger">No Orders! Please Continue shopping.</h3>
+            }
+            @foreach (var bill in ViewBag.Bills)
+            {
+                <!-- Item-->
+                <div class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
+                    <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left">
+                        <a class="d-inline-block mx-auto mr-sm-4" href="#" style="width: 10rem;"><img src="~/Content/Images/Food.jpg" alt="@bill.CustomerName"></a>
+                        <div class="media-body pt-2">
+                            <h3 class="product-title font-size-base mb-2"><a href="/Customer/Bill/@bill.Id">Order Id: @bill.Id</a></h3>
+                            <div class="font-size-sm"><span class="text-muted mr-2">Total Items:</span>@bill.OrderedItems</div>
+                            <div class="font-size-sm">
+
+                            </div>
+                            <div class="font-size-lg text-accent pt-2">Total Price: Rs. @bill.OrderTotal</div>
+                        </div>
+                    </div>
+                    <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
+                        <div class="form-group mb-0">
+                            <label class="font-weight-medium">
+                                @if (@bill.isConfirmed == false)
+                                {
+                                    <span class="text-danger mr-2">
+                                        Rejected
+                                    </span>
+                                }
+                                else if (@bill.isConfirmed == true)
+                                {
+                                    <span class="text-success mr-2">
+                                        Accepted
+                                    </span>
+                                }
+                                else if (@bill.isConfirmed == null)
+                                {
+                                    <span class="text-accent mr-2">
+                                        Pending
+                                    </span>
+                                }
+                            </label>
+                        </div>
+                        <div class="px-0 text-danger"><span class="font-size-sm">@bill.OrderedOn</span></div>
+                    </div>
+                </div>
+                <!-- Item-->
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/user-assets/js/vendor.min.js"></script>
+    <script src="~/Content/user-assets/js/theme.min.js"></script>
+}
+

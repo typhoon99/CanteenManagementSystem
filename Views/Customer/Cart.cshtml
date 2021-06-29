@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Customer/_CustomerLayout.cshtml";
+}
+
+@section styles{
+}
+<div class="container pb-5 mb-2 mb-md-4">
+    <div class="row">
+        <!-- List of items-->
+        <section class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
+                <h2 class="h6 text-light mb-0">Cart Items</h2><a class="btn btn-outline-primary btn-sm pl-2" href="/Customer"><i class="czi-arrow-left mr-2"></i>Continue shopping</a>
+            </div>
+            @if(ViewBag.CartItems.Count==0)
+            {
+                <h3 class="ml-auto text-danger">Cart Empty! Please Continue shopping.</h3>
+            }
+            @foreach (var item in ViewBag.CartItems)
+            {
+                <!-- Item-->
+                <div id="item_@item.ItemName" class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
+                    <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left">
+                        <a class="d-inline-block mx-auto mr-sm-4" href="shop-single-v1.html" style="width: 10rem;"><img src="~/Content/@item.ItemImagePath" alt="@item.ItemName"></a>
+                        <div class="media-body pt-2">
+                            <h3 class="product-title font-size-base mb-2"><a href="#">@item.ItemName></a></h3>
+                            <div class="font-size-sm"><span class="text-muted mr-2">Type:</span>@item.ItemType</div>
+                            <div class="font-size-sm"><span class="text-muted mr-2">Description:</span>@item.Description</div>
+                            <div class="font-size-lg text-accent pt-2">Rs. @item.Price</div>
+                        </div>
+                    </div>
+                    <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
+                        <div class="form-group mb-0">
+                            <label class="font-weight-medium" for="quantity1">Quantity</label>
+                            <input class="form-control" type="number" id="quantity1" value="@item.Quantity">
+                        </div>
+                        <button data-id="@item.Id" class="btn btn-link px-0 text-danger btnRemoveCart" type="button"><i class="czi-close-circle mr-2"></i><span class="font-size-sm">Remove</span></button>
+                    </div>
+                </div>
+                <!-- Item-->
+            }
+            <button class="btn btn-outline-accent btn-block" type="button"><i class="czi-loading font-size-base mr-2"></i>Update cart</button>
+        </section>
+        <!-- Sidebar-->
+        <aside class="col-lg-4 pt-4 pt-lg-0">
+            <div class="cz-sidebar-static rounded-lg box-shadow-lg ml-lg-auto">
+                <div class="text-center mb-4 pb-3 border-bottom">
+                    <h2 class="h6 mb-3 pb-1">Subtotal</h2>
+                    <h3 id="lblSubTotal" class="font-weight-normal">Rs. @ViewBag.Price</h3>
+                </div>
+                <div class="form-group mb-4">
+                    @*<label class="mb-3" for="order-comments"><span class="badge badge-info font-size-xs mr-2">Note</span><span class="font-weight-medium">Delivery Address</span></label>*@
+                    <label class="mb-3" for="order-comments"><span class="badge badge-danger font-size-xs mr-2">Note</span><span class="font-weight-medium">All Orders are Take Away Due To Covid-19. No Home Delivery.</span></label>
+                    @*<textarea class="form-control" rows="6" id="order-comments" required=""></textarea>*@
+                </div>
+                <div class="accordion" id="order-options">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="accordion-heading"><a href="#promo-code" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="promo-code">Apply promo code<span class="accordion-indicator"></span></a></h3>
+                        </div>
+                        <div class="collapse show" id="promo-code" data-parent="#order-options">
+                            <form class="card-body needs-validation" method="post" novalidate="">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Promo code" required="">
+                                    <div class="invalid-feedback">Please provide promo code.</div>
+                                </div>
+                                <button id="btnPromoCode" class="btn btn-outline-primary btn-block">Apply promo code</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <button id="btnCheckout" type="button" class="btn btn-primary btn-shadow btn-block mt-4"><i class="czi-card font-size-lg mr-2"></i>Checkout</button>
+            </div>
+        </aside>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/user-assets/js/vendor.min.js"></script>
+    <script src="~/Content/user-assets/js/theme.min.js"></script>
+    <script>
+        $('#btnCheckout').on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: "/Customer/Checkout",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.d);
+                    window.location.href='/Customer/Orders';
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            })
+        })
+    </script>
+}

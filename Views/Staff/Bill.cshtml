@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Bill";
+    ViewBag.Section = "Staff";
+    ViewBag.Icon = "fa fa-home";
+    Layout = "~/Views/Staff/_StaffLayout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href='~/Content/user-assets/css/bill.css' />
+}
+
+<div class="card mb-4">
+    <!-- Card header -->
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">Customer Bill #@ViewBag.order.Id</h3>
+        <a class="btn btn-outline-primary btn-sm pl-2 float-right" href="/Staff/ViewBills"><i class="czi-arrow-left mr-2"></i>Back to Bills</a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <section class="col-lg-12">
+                <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
+                </div>
+                <div class="invoice-box">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr class="top">
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <td class="title">
+                                            <h2>MyCanteen</h2>
+                                        </td>
+
+                                        <td>
+                                            Invoice #: @ViewBag.Order.Id<br>
+                                            Created: @ViewBag.Order.OrderedOn<br>
+                                            Paid
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="information">
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            MyCanteen<br>
+                                            12345 Agra Road<br>
+                                            Dhule, Maharashtra 424001
+                                        </td>
+
+                                        <td>
+                                            @ViewBag.Order.CustomerName
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="heading">
+                            <td>
+                                Payment Method
+                            </td>
+
+                            <td>
+                                Check #
+                            </td>
+                        </tr>
+
+                        @*<%--
+                        <tr class="details">
+                            <td>
+                                Check
+                            </td>
+
+                            <td>
+                                1000
+                            </td>
+                        </tr>--%>*@
+
+                        <tr class="heading">
+                            <td>
+                                Item
+                            </td>
+
+                            <td>
+                                Price
+                            </td>
+                        </tr>
+                        @foreach (var item in ViewBag.OrderedItems)
+                        {
+                            <tr class="item">
+                                <td>
+                                    @item.ItemName  x @item.Quantity
+                                </td>
+
+                                <td>
+                                    Rs. @item.Price
+                                </td>
+                            </tr>
+                        }
+
+
+                        <tr class="total">
+                            <td></td>
+
+                            <td>
+                                Total: Rs @ViewBag.Order.OrderTotal
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Customer/_CustomerLayout.cshtml";
+}
+@section styles{
+}
+<div class="container pb-5 mb-2 mb-md-4">
+    <div class="row">
+        <!-- List of items-->
+        <section class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
+                @*<h2 class="h6 text-light mb-0">Products</h2><a class="btn btn-outline-primary btn-sm pl-2" href="/Users/Products"><i class="czi-arrow-left mr-2"></i>Continue shopping</a>*@
+            </div>
+            <div class="row mx-n2">
+                @foreach (var product in @ViewBag.Products)
+                {
+                    <div class="col-md-4 col-sm-6 px-2 mb-4">
+                        <div class="card product-card">
+                            <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="~/Content/@product.ItemImagePath" alt="Product"></a>
+                            <div class="card-body py-2">
+                                <a class="product-meta d-block fs-xs pb-1" href="#">@product.ItemType</a>
+                                <h3 class="product-title fs-sm"><a href="#">@product.ItemName</a><small> (@product.Quantity @product.UnitofMeasurement)</small></h3>
+                                <div class="d-flex justify-content-between">
+                                    <div class="product-price"><span class="text-accent">Rs. @product.SellingPricePerPiece</span></div>
+                                </div>
+                            </div>
+                            <div class="card-body card-body-hidden">
+                                <button id="@product.Id" class="btn btn-primary btn-sm d-block w-100 mb-2 btnCart" type="button" data-toggle="toast" data-target="#cart-toast"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
+                            </div>
+                        </div>
+                        <hr class="d-sm-none">
+                    </div>
+                }
+            </div>
+        </section>
+        <!-- Toast: Added to Cart-->
+        <div class="toast-container toast-bottom-center">
+            <div class="toast mb-3" id="cart-toast" data-delay="5000" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-success text-white">
+                    <i class="czi-check-circle mr-2"></i>
+                    <h6 class="font-size-sm text-white mb-0 mr-auto">Added to cart!</h6>
+                    <button class="close text-white ml-2 mb-1" type="button" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="toast-body">This item has been added to your cart.</div>
+            </div>
+        </div>
+        <!-- Sidebar-->
+        <aside class="col-lg-4 pt-4 pt-lg-0">
+            <div class="cz-sidebar-static rounded-lg box-shadow-lg ml-lg-auto">
+                <div class="mb-4 pb-3 border-bottom">
+                    <h2 class="h6 mb-3 pb-1">Categories</h2>
+                    @*<h3 id="lblSubTotal" class="font-weight-normal">Rs. 50</h3>*@
+                </div>
+                @*<div class="form-group mb-4">
+                        <label class="mb-3" for="order-comments"><span class="badge badge-info font-size-xs mr-2">Note</span><span class="font-weight-medium">Delivery Address</span></label>
+                        <textarea class="form-control" rows="6" id="order-comments" required=""></textarea>
+                    </div>*@
+                <a class="widget-list-link d-flex justify-content-between align-items-center" href="/Customer"><span class="h6 text-danger">View All</span></a>
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <a class="widget-list-link d-flex justify-content-between align-items-center" href="/Customer?category=@category.category"><span class="h6">@category.category</span><span class="fs-xs text-muted ms-3">@category.items</span></a>
+                }
+                @*<button id="btnCheckout" type="button" class="btn btn-primary btn-shadow btn-block mt-4"><i class="czi-card font-size-lg mr-2"></i>Checkout</button>*@
+            </div>
+        </aside>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/user-assets/js/vendor.min.js"></script>
+    <script src="~/Content/user-assets/js/theme.min.js"></script>
+    <script>
+        $('.btnCart').on('click', function () {
+            console.log(event.srcElement.id);
+            $.ajax({
+                type: "POST",
+                url: "/Customer/AddToCart",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    id: parseInt(event.srcElement.id),
+                    quantity: parseInt(1),
+                }),
+                success: function (data) {
+                    console.log(data.status);
+                    $('.navbar-tool-label').html(data.quantity);
+                    $('#lblCartPrice').html(data.price);
+                    window.location.reload();
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            })
+        })
+    </script>
+}
+

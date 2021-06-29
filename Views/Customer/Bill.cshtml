@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Bill #" + ViewBag.Order.Id;
+    Layout = "~/Views/Customer/_CustomerLayout.cshtml";
+}
+
+@section styles{
+        <link rel="stylesheet" href='~/Content/user-assets/css/bill.css' />;
+    }
+
+<div class="container pb-5 mb-2 mb-md-4">
+    <div class="row">
+        <section class="col-lg-12">
+        <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
+            <h2 class="h6 text-light mb-0">Order Summary</h2><a class="btn btn-outline-primary btn-sm pl-2" href="/Customer/Orders"><i class="czi-arrow-left mr-2"></i>Back to Orders</a>
+        </div>
+            <div class="invoice-box">
+                <table cellpadding="0" cellspacing="0">
+                    <tr class="top">
+                        <td colspan="2">
+                            <table>
+                                <tr>
+                                    <td class="title">
+                                        <h2>MyCanteen</h2>
+                                    </td>
+
+                                    <td>
+                                        Invoice #: @ViewBag.Order.Id<br>
+                                        Created: @ViewBag.Order.OrderedOn<br>
+                                        Paid
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr class="information">
+                        <td colspan="2">
+                            <table>
+                                <tr>
+                                    <td>
+                                        MyCanteen<br>
+                                        12345 Agra Road<br>
+                                        Dhule, Maharashtra 424001
+                                    </td>
+
+                                    <td>
+                                        @ViewBag.Order.CustomerName
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr class="heading">
+                        <td>
+                            Payment Method
+                        </td>
+
+                        <td>
+                            Check #
+                        </td>
+                    </tr>
+
+                    @*<%--
+                    <tr class="details">
+                        <td>
+                            Check
+                        </td>
+
+                        <td>
+                            1000
+                        </td>
+                    </tr>--%>*@
+
+                    <tr class="heading">
+                        <td>
+                            Item
+                        </td>
+
+                        <td>
+                            Price
+                        </td>
+                    </tr>
+                    @foreach (var item in ViewBag.OrderedItems)
+                    {
+                        <tr class="item">
+                            <td>
+                                @item.ItemName  x @item.Quantity
+                            </td>
+
+                            <td>
+                                Rs. @item.Price
+                            </td>
+                        </tr>
+                    }
+
+
+                    <tr class="total">
+                        <td></td>
+
+                        <td>
+                            Total: Rs @ViewBag.Order.OrderTotal
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+

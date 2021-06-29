@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "View Stock";
+    ViewBag.Section = "Admin";
+    ViewBag.Icon = "fas fa-home";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/assets/vendor/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+}
+<div class="card mb-4">
+    <!-- Card header -->
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">All Stock Items</h3>
+        <p class="text-danger mb-0">
+            <strong>All stocks below threshold limit are marked Red. Please re-fill them soon.</strong>
+        </p>
+    </div>
+    <div class="table-responsive py-4">
+        <table class="table table-flush" id="datatable-stocks">
+            <thead class="thead-light">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Available Quantity</th>
+                    <th>Profit</th>
+                    <th>Last Ordered On</th>
+                    <th>Last Order Quantity</th>
+                    <th>Expiry Date</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Available Quantity</th>
+                    <th>Profit</th>
+                    <th>Last Ordered On</th>
+                    <th>Last Order Quantity</th>
+                    <th>Expiry Date</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var stock in ViewBag.StockList)
+                {
+                    if (stock.AvailableQty < stock.Threshold)
+                    {
+                        <tr class="bg-danger">
+                            <td class="text-white">@stock.ItemName</td>
+                            <td class="text-white">@stock.AvailableQty</td>
+                            <td class="text-white">@(stock.SellingPricePerPiece - stock.CostPricePerPiece)</td>
+                            <td class="text-white">@stock.LastOrderdOn.ToShortDateString()</td>
+                            <td class="text-white">@stock.LastOrderedQty</td>
+                            <td class="text-white">@stock.ExpDt.ToShortDateString()</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@stock.ItemName</td>
+                            <td>@stock.AvailableQty</td>
+                            <td>@(stock.SellingPricePerPiece - stock.CostPricePerPiece)</td>
+                            <td>@stock.LastOrderdOn.ToShortDateString()</td>
+                            <td>@stock.LastOrderedQty</td>
+                            <td>@stock.ExpDt.ToShortDateString()</td>
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="~/Content/assets/vendor/select2/dist/js/select2.min.js"></script>
+    <script src="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script>
+        DatatableStocks = function () {
+            var e, a = $("#datatable-stocks");
+            a.length && (e = {
+                lengthChange: !1,
+                dom: "Bfrtip",
+                buttons: ["copy", "print"],
+                order: [[1, "asc"]],
+                language: {
+                    paginate: {
+                        previous: "<i class='fas fa-angle-left'>",
+                        next: "<i class='fas fa-angle-right'>"
+                    }
+                }
+            }, a.on("init.dt", function () {
+                $(".dt-buttons .btn").removeClass("btn-secondary").addClass("btn-sm btn-default")
+            }).DataTable(e))
+        }()
+    </script>
+}

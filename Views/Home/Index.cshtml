@@ -1,0 +1,205 @@
+﻿@model CanteenManagement.Models.Users
+
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+    <meta name="author" content="Creative Tim">
+    <title>MyCanteen : @ViewBag.Title</title>
+    <!-- Favicon -->
+    <link rel="icon" href="~/Content/assets/img/brand/MyCanteenIcon.ico" type="image/png">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/argon.min5438.css?v=1.2.0" type="text/css">
+</head>
+<body class="bg-gradient-danger">
+    <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand homeNavBrand" href="/">
+                <img src="~/Content/assets/img/brand/MyCanteenLogoWhite.png" style="height: 50px" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand display-1">
+                            <a href="/">
+                                <img src="~/Content/assets/img/brand/MyCanteenLogo.png" />
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @*<ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="../dashboards/dashboard.html" class="nav-link">
+                            <span class="nav-link-inner--text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pricing.html" class="nav-link">
+                            <span class="nav-link-inner--text">Pricing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link">
+                            <span class="nav-link-inner--text">Login</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link">
+                            <span class="nav-link-inner--text">Register</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="lock.html" class="nav-link">
+                            <span class="nav-link-inner--text">Lock</span>
+                        </a>
+                    </li>
+                </ul>*@
+                <hr class="d-lg-none" />
+                <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                    <li class="nav-item d-none d-lg-block ml-lg-4">
+                        <a href="/Home/Register" class="btn btn-neutral btn-icon">
+                            <span class="btn-inner--icon">
+                                <i class="fas fa-user-alt mr-2"></i>
+                            </span>
+                            <span class="nav-link-inner--text">Sign Up</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header bg-gradient-danger py-7 py-lg-6 pt-lg-9">
+            <div class="container">
+                <div class="header-body text-center mt--6 mb-7">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+                            <h1 class="text-white">Welcome!</h1>
+                            <p class="text-lead text-white">Use this awesome form to login or create new account in MyCanteen for free and enjoy your meal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="separator separator-bottom separator-skew zindex-100">
+                <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
+                </svg>
+            </div>*@
+        </div>
+        <!-- Page content -->
+        <div class="container mt--8 pb-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7">
+                    <div class="card bg-secondary mb-0 border">
+                        <div class="card-header bg-transparent pb-1">
+                            <div class="text-center text-muted mb-4">
+                                <h2>Sign in with credentials</h2>
+                            </div>
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-5">
+                            @if (@ViewBag.Message != null)
+                            {
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <span class="alert-icon"><i class="fa fa-times"></i></span>
+                                    <span class="alert-text"><strong>@ViewBag.Message!</strong> Please try again!</span>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                            }
+                            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                        </div>
+                                        @*<input class="form-control" placeholder="Email" type="email">*@
+                                        @Html.TextBoxFor(a => a.Username, new { @class = "form-control", @placeholder = "Email", @type = "email" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        @*<input class="form-control" placeholder="Password" type="password">*@
+                                        @Html.TextBoxFor(a => a.Password, new { @class = "form-control", @placeholder = "Password", @type = "password" })
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        @*<div class="col-6">
+                            <a href="#" class="text-light"><small>Forgot password?</small></a>
+                        </div>*@
+                        <div class="col float-right text-right">
+                            <a href="/Home/Register" class="text-white"><small>Create new account</small></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="py-5" id="footer-main">
+        <div class="container">
+            <div class="row align-items-center justify-content-xl-between">
+                <div class="col-xl-6">
+                    <div class="copyright text-center text-xl-left text-white">
+                        &copy; 2021 <a href="/" class="font-weight-bold ml-1 text-white"><img src="~/Content/assets/img/brand/MyCanteenLogoWhite.png" height="30" /></a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link text-white" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link text-white" target="_blank">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="~/Content/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/assets/vendor/js-cookie/js.cookie.js"></script>
+    <script src="~/Content/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/Content/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <!-- Argon JS -->
+    <script src="~/Content/assets/js/argon.min5438.js?v=1.2.0"></script>
+</body>
+</html>

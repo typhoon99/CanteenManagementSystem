@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dfb086570e9b45b2a1cc13b925bf1278" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="Canteen_ManagementModel.BatchDetails" Width="1.5" PointX="3.5" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.CartItems" Width="1.5" PointX="5.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.CustomerOrderItems" Width="1.875" PointX="3.5" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.StockBatch" Width="1.5" PointX="0.875" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.UserProfile" Width="1.75" PointX="3.375" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.Users" Width="1.75" PointX="1" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__BatchDeta__Order__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CartItems__UserI__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CustomerO__UserI__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__UserProfi__UserI__1273C1CD" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.Stock" Width="2.125" PointX="7.875" PointY="10.25" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__BatchDeta__ItemI__1A14E395" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CartItems__Stock__1ED998B2" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CustomerO__Stock__276EDEB3" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__Stock__BatchNo__173876EA" />
+        <EntityTypeShape EntityType="Canteen_ManagementModel.CustomerOrders" Width="1.875" PointX="1.25" PointY="12.875" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CustomerO__Order__286302EC" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CustomerO__Accep__24927208" />
+        <AssociationConnector Association="Canteen_ManagementModel.FK__CustomerO__Custo__22AA2996" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>MyCanteen - @ViewBag.Title</title>
+    <!-- Favicon and Touch Icons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/assets/img/brand/MyCanteenIcon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/assets/img/brand/MyCanteenIcon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/img/brand/MyCanteenIcon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    @*Optional Page Styles*@
+    @RenderSection("styles", false)
+    <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+    <link rel="stylesheet" media="screen" href="~/Content/user-assets/css/vendor.min.css">
+    <!-- Main Theme Styles + Bootstrap-->
+    <link rel="stylesheet" media="screen" href="~/Content/user-assets/css/theme.min.css">
+</head>
+<body class="toolbar-enabled">
+    <!-- Navbar 3 Level (Light)-->
+    <header class="box-shadow-sm">
+        <!-- Topbar-->
+        <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
+        <div class="navbar-sticky bg-light">
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <a class="navbar-brand d-none d-sm-block mr-3 flex-shrink-0" href="#" style="min-width: 7rem;"><img src="~/Content/assets/img/brand/MyCanteenLogo.png" width="142" /></a>
+                    <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
+                        <div class="container">
+                            <div class="collapse navbar-collapse">
+                                <!-- Search-->
+                                <!-- Departments menu-->
+                                <!-- Primary menu-->
+                                <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="/Customer/">Home</a>
+
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="/Customer/Cart">Cart</a>
+
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="/Customer/Orders">My Orders</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="/Home/LogOut">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Toolbar-->
+                    <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a class="navbar-tool navbar-stuck-toggler" href="#">
+                            <span class="navbar-tool-tooltip">Expand menu</span>
+                            <div class="navbar-tool-icon-box"><i class="navbar-tool-icon czi-menu"></i></div>
+                        </a><a class="navbar-tool ml-1 ml-lg-0 mr-n1 mr-lg-2" href="#signin-modal" data-toggle="modal">
+                                <div class="navbar-tool-icon-box">
+                                    @if (ViewBag.CurrentUser.UserImagePath == null)
+                                    {
+                                        <i class="navbar-tool-icon czi-user"></i>
+                                    }
+                                    else
+                                    {
+                                        <img class="navbar-tool-icon pr-2" src="~/Content/@ViewBag.CurrentUser.UserImagePath" />
+                                    }
+                                </div>
+                            <div class="navbar-tool-text ml-n3"><small>Hello, </small>@ViewBag.CurrentUser.FName</div>
+                        </a>
+                        <div class="navbar-tool dropdown ml-3">
+                            <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="/Customer/Cart"><span class="navbar-tool-label">@ViewBag.Quantity</span><i class="navbar-tool-icon czi-cart"></i></a><a class="navbar-tool-text" href="/Customer/Cart"><small>My Cart</small>Rs. <b id="lblCartPrice">@ViewBag.Price</b></a>
+                            <!-- Cart dropdown-->
+                            <div class="dropdown-menu dropdown-menu-right" style="width: 20rem;">
+                                <div class="widget widget-cart px-3 pt-2 pb-3">
+                                    <div style="height: 15rem;" data-simplebar="init" data-simplebar-auto-hide="false">
+                                        <div class="simplebar-wrapper" style="margin: 0px -16px 0px 0px;">
+                                            <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
+                                                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                                    <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
+                                                        <div class="simplebar-content" style="padding: 0px 16px 0px 0px;">
+                                                            @foreach (var item in ViewBag.CartItems)
+                                                            {
+                                                                <div class="widget-cart-item py-2 border-bottom">
+                                                                    <button data-id="@item.Id" class="close text-danger btnRemoveCart" type="button" aria-label="Remove"><span aria-hidden="true">×</span></button>
+                                                                    <div class="media align-items-center">
+                                                                        <a class="d-block mr-2" href="shop-single-v2.html"><img width="64" src="~/Content/@item.ItemImagePath" alt="Product"></a>
+                                                                        <div class="media-body">
+                                                                            <h6 class="widget-product-title"><a href="#">@item.ItemName</a></h6>
+                                                                            <div class="widget-product-meta"><span class="text-accent mr-2">Rs. @item.SellingPricePerPiece</span><span class="text-muted">x @item.Quantity</span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><div class="simplebar-placeholder" style="width: 0px; height: 0px;"></div>
+                                        </div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar simplebar-visible" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar simplebar-visible" style="transform: translate3d(0px, 0px, 0px); display: none; height: 182px;"></div></div>
+                                    </div>
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
+                                        <div class="font-size-sm mr-2 py-2"><span class="text-muted">Subtotal:</span><span class="text-accent font-size-base ml-1">Rs. @ViewBag.Price</span></div><a class="btn btn-outline-secondary btn-sm" href="/Customer/Cart">Expand cart<i class="czi-arrow-right ml-1 mr-n1"></i></a>
+                                    </div><a class="btn btn-primary btn-sm btn-block" href="/Customer/Cart"><i class="czi-card mr-2 font-size-base align-middle"></i>Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
+                <div class="container">
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <!-- Search-->
+                        <div class="input-group-overlay d-lg-none my-3">
+                            <div class="input-group-prepend-overlay"><span class="input-group-text"><i class="czi-search"></i></span></div>
+                            <input class="form-control prepended-form-control" type="text" placeholder="Search for products">
+                        </div>
+                        <!-- Primary menu-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Page Title (Shop)-->
+    <div class="page-title-overlap bg-dark pt-4">
+        <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+            <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                        <li class="breadcrumb-item"><a class="text-nowrap" href="/Customer/"><i class="czi-home"></i>Home</a></li>
+                        <li class="breadcrumb-item text-nowrap">
+                            <a href="/Customer/">Shop</a>
+                        </li>
+                        <li class="breadcrumb-item text-nowrap active" aria-current="page">Home</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+                <h1 class="h3 text-light mb-0">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <!-- Toolbar for handheld devices-->
+    <div class="cz-handheld-toolbar">
+        <div class="d-table table-fixed w-100">
+            <a class="d-table-cell cz-handheld-toolbar-item" href="account-wishlist.html"><span class="cz-handheld-toolbar-icon"><i class="czi-heart"></i></span><span class="cz-handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell cz-handheld-toolbar-item" href="#navbarCollapse" data-toggle="collapse" onclick="window.scrollTo(0, 0)"><span class="cz-handheld-toolbar-icon"><i class="czi-menu"></i></span><span class="cz-handheld-toolbar-label">Menu</span></a><a class="d-table-cell cz-handheld-toolbar-item" href="/Users/cart.aspx"><span class="cz-handheld-toolbar-icon"><i class="czi-cart"></i><span class="badge badge-primary badge-pill ml-1">4</span></span><span class="cz-handheld-toolbar-label">Rs. @ViewBag.Price</span></a>
+        </div>
+    </div>
+    <!-- Back To Top Button--><a class="btn-scroll-top" href="#top" data-scroll=""><span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span><i class="btn-scroll-top-icon czi-arrow-up">   </i></a>
+    @*Page Specific JavaScript*@
+    @RenderSection("scripts", false)
+    <script>
+        $('.btnRemoveCart').on('click', function () {
+            //console.log($(this).attr("data-id"));
+            const id = parseInt($(this).attr("data-id"));
+            $.ajax({
+                type: "DELETE",
+                url: "/Customer/RemoveFromCart",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    id: id,
+                }),
+                success: function (data) {
+                    console.log(data.status);
+                    $('.navbar-tool-label').html(data.quantity);
+                    $('#lblCartPrice').html(data.price);
+                    window.location.reload();
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            })
+        })
+    </script>
+</body>
+</html>

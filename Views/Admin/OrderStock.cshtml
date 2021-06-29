@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "Order Stock";
+    ViewBag.Section = "Admin";
+    ViewBag.Icon = "fas fa-home";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/assets/vendor/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+}
+<div class="card mb-4">
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">Order Items</h3>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+        <!-- Form groups used in grid -->
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="form-control-label" for="selectItemselectItem">Item</label>
+                    @Html.DropDownList("selectItem", (IEnumerable<SelectListItem>)ViewData["StockItems"], htmlAttributes: new { @class = "form-control", @data_toggle = "select", @title = "Select Medicine", @data_live_search = "true", @data_placeholder = "Search a Medicine" })
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="form-control-label" for="txtQuantity">Quantity</label>
+                    <input type="text" id="txtQuantity" class="form-control" placeholder="Quantity"></input>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="form-control-label" for="txtCostPrice">Price</label>
+                    <input type="text" id="txtCostPrice" class="form-control" placeholder="Price" disabled></input>
+                </div>
+            </div>
+            <div class="col-3 my-auto">
+                <button id="btnAddRow" class="btn btn-lg btn-icon btn-primary" type="button">
+                    <span class="btn-inner--icon"><i class="ni ni-fat-add" style="font-size:20px;"></i></span>
+                    <span class="btn-inner--text d-none d-sm-inline-block font-weight-bold" style="font-size:20px;">Add</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header">
+                        <h3 class="mb-0">
+                            Selected Items to order
+                            <span class="float-right">
+                                Total Price: <span id="lblTotalPrice">0</span>
+                            </span>
+                        </h3>
+                        <p class="text-sm mb-0">
+                            All your selected items appear here, on confirming purchase your stock will be updated.
+                        </p>
+                    </div>
+                    <div class="table-responsive py-4">
+                        <table class="table table-flush" id="datatable-buttons">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <button id="btnConfirmOrder" class="btn btn-primary w-25">Place Order</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="~/Content/assets/vendor/select2/dist/js/select2.min.js"></script>
+    <script src="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script>
+        let price = 0;
+        let totalPrice = 0;
+        let orderedItems = new Array();
+        $(document).ready(function () {
+            //Get Item Price on Dropdown Change
+            $('#selectItem').on('change', function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/GetItemPrice",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: { selectedItem: $('#selectItem').val().trim() },
+                    success: function (data) {
+                        console.log(data.price);
+                        $('#txtQuantity').val("1");
+                        $('#txtCostPrice').val(data.price);
+                        price = parseFloat(data.price);
+                    },
+                    error: function (error) {
+                        alert("Some Error occured. Can't get Item Price.");
+                        console.error(error);
+                    }
+                })
+            });
+
+            //Calculate Total Price of Medicine when Quantity is changed
+            $('#txtQuantity').on('keyup', function () {
+                var quantity = parseFloat($('#txtQuantity').val())
+                $('#txtCostPrice').val(price * quantity)
+            });
+            var t = $('#datatable-buttons').DataTable();
+
+            //Add new Row or Update Existing Row in DataTable
+            var t = $('#datatable-buttons').DataTable();
+            $('#btnAddRow').on('click', function () {
+                if ($('#txtQuantity').val() != "" && $('#selectItem').val() != "") {
+                    var itemName = $('#selectItem option:selected').text();
+                    var itemQty = parseInt($('#txtQuantity').val());
+                    var itemPrice = parseFloat($('#txtCostPrice').val());
+                    totalPrice += itemPrice;
+                    $('#lblTotalPrice').html(totalPrice);
+                    if (orderedItems.find(o => o.ItemName === itemName)) {
+                        var item = orderedItems.find(o => o.ItemName === itemName);
+                        item.ItemQuantity += itemQty;
+                        item.ItemPrice += itemPrice;
+
+                        var indexes = t
+                            .rows()
+                            .indexes()
+                            .filter(function (value, index) {
+                                return itemName === t.row(value).data()[0];
+                            });
+                        //console.log(indexes);
+                        // Get the row for indexes[0]
+                        var row = t.row(indexes[0]);
+                        //console.log(row);
+                        // Get the data for the row
+                        var data = row.data();
+                        //console.log(data[0]);
+                        // Change the position to `Engineer`
+                        data[1] = item.ItemQuantity;
+                        data[2] = item.ItemPrice;
+                        //console.log(data[1], data[2]);
+                        // Update the table data and redraw the table
+                        row.data(data).draw();
+                    }
+                    else {
+                        orderedItems.push({ ItemName: itemName, ItemQuantity: itemQty, ItemPrice: itemPrice })
+                        t.row.add([
+                            itemName,
+                            itemQty,
+                            itemPrice,
+                        ]).draw(false);
+                    }
+                }
+            });
+
+            //Submit Data and Complete Order Order
+            $('#btnConfirmOrder').on('click', function () {
+                setTimeout(function () {
+                    swal({
+                        title: "Are you sure?",
+                        text: "Do you want to place this order?",
+                        type: "success",
+                        showCancelButton: !0,
+                        buttonsStyling: !1,
+                        confirmButtonClass: "btn btn-success",
+                        confirmButtonText: "Yes, Confirm!",
+                        cancelButtonClass: "btn btn-secondary",
+                    }).then((a) => {
+                        console.log(orderedItems);
+                        a.value && (
+                            $.ajax({
+                                type: "POST",
+                                url: "/Admin/OrderStock",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({ orderedItems: orderedItems }),
+                                success: function (data) {
+                                    if (data.status === "success") {
+                                        swal({
+                                            title: "Ordered!",
+                                            text: "New Stock has been ordered.",
+                                            type: "success",
+                                            buttonsStyling: !1,
+                                            confirmButtonClass: "btn btn-primary",
+                                        })
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error(error);
+                                    swal({
+                                        title: "Failed!",
+                                        text: "There was a problem ordering Stock. We're Sorry for the inconvenience. Please Try Again.",
+                                        type: "warning",
+                                        buttonsStyling: !1,
+                                        confirmButtonClass: "btn btn-danger",
+                                        confirmButtonText: "Try Again",
+                                    })
+                                }
+                            }))
+                    });
+                }, 200)
+            })
+        });
+    </script>
+}

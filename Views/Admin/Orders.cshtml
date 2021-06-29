@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "Process Orders";
+    ViewBag.Section = "Orders";
+    ViewBag.Icon = "fas fa-home";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h3 class="mb-0">Process Orders</h3>
+    </div>
+    <div class="card-body">
+        <div class="card-wrapper row">
+            @foreach (var order in ViewBag.Orders)
+            {
+                <div class="col-lg-4">
+                    <!-- Profile card -->
+                    <img src="~/Content/Images/Food.jpg" alt="Image placeholder" class="card-img-top">
+                    <div class="card card-profile">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-3 order-lg-2">
+                                <div class="card-profile-image">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-3 order-lg-2">
+                                            <div class="card-profile-image">
+                                                @if (order.userProfile.UserImagePath == null)
+                                                {
+                                                    <a href="#">
+                                                        <img src="~/Content/Profiles/User.jpg" class="rounded-circle">
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#">
+                                                        <img src="~/Content/@order.userProfile.UserImagePath" class="rounded-circle">
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                            <div class="d-flex justify-content-between">
+                                <a href="/Admin/RejectOrder/@order.order.Id" class="btn btn-sm btn-danger mr-4 ">Reject</a>
+                                <a href="/Admin/AcceptOrder/@order.order.Id" class="btn btn-sm btn-primary float-right">Accept</a>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="description">Ordered By: </div>
+                                            <div class="heading">@order.userProfile.FName @order.userProfile.LName</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-profile-stats d-flex justify-content-center">
+                                        <div>
+                                            <span class="heading">@order.order.OrderedItems</span>
+                                            <span class="description">Items</span>
+                                        </div>
+                                        <div>
+                                            <span class="heading">₹@order.order.OrderTotal</span>
+                                            <span class="description">Amount</span>
+                                        </div>
+                                        <div>
+                                            <span class="heading">
+                                                <i class="fa fa-check text-success"></i>
+                                            </span>
+                                            <span class="description">Paid</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-left">
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var item in order.orderItems)
+                                    {
+                                        <li class="list-group-item">
+                                            <div class="float-left">
+                                                @item.ItemName x @item.Quantity
+                                            </div>
+                                            <div class="float-right">
+                                                = @item.Price
+                                            </div>
+                                        </li>
+                                    }
+                                    <li class="list-group-item h4 text-default">
+                                        <div class="float-left">
+                                            Total
+                                        </div>
+                                        <div class="float-right">
+                                            ₹@order.order.OrderTotal
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center">
+                                <a href="/Admin/AcceptOrder/@order.order.Id" class="btn btn-primary">Accept Order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

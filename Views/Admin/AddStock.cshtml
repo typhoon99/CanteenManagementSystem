@@ -1,0 +1,209 @@
+﻿@model CanteenManagement.Models.Stock
+
+@{
+    ViewBag.Section = "Admin";
+    ViewBag.Title = "Add Stock";
+    ViewBag.Icon = "fas fa-home";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<h2>AddStock</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h3 class="mb-0">Add Stock</h3>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("AddStock", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ItemName, "Item Name", htmlAttributes: new { @class = "form-control-label" })
+                        @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("stockImage", "Item Image", htmlAttributes: new { @class = "form-control-label" })
+                        <div class="custom-file">
+                            <input type="file" name="stockImage" class="custom-file-input" />
+                            @Html.Label("stockImage", "Item Image", htmlAttributes: new { @class = "custom-file-label" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ItemImagePath, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "form-control-label" })
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.UnitofMeasurement, htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.UnitofMeasurement, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UnitofMeasurement, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.CostPricePerPiece, htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.CostPricePerPiece, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CostPricePerPiece, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.MfgDt, htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        <div class="input-group date" id="dateMfg">
+                            @Html.TextBoxFor(model => model.MfgDt, htmlAttributes: new { @class = "form-control datepicker", @placeholder = "Select date" })
+                            <span class="input-group-addon input-group-append">
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2"> <span class="fa fa-calendar"></span></button>
+                            </span>
+                            @Html.ValidationMessageFor(model => model.MfgDt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.ExpDt, htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        <div class="input-group date" id="dateExp">
+                            @Html.TextBoxFor(model => model.ExpDt, htmlAttributes: new { @class = "form-control datepicker", @placeholder = "Select date" })
+                            <span class="input-group-addon input-group-append">
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2"> <span class="fa fa-calendar"></span></button>
+                            </span>
+                            @Html.ValidationMessageFor(model => model.ExpDt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.AvailableQty, htmlAttributes: new { @class = "form-control-label col-md-2" })
+                        <div class="">
+                            @Html.EditorFor(model => model.AvailableQty, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AvailableQty, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.LastOrderdOn, htmlAttributes: new { @class = "form-control-label col-md-2" })
+                        <div class="">
+                            @Html.EditorFor(model => model.LastOrderdOn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastOrderdOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.LastOrderedOty, htmlAttributes: new { @class = "form-control-label col-md-2" })
+                        <div class="">
+                            @Html.EditorFor(model => model.LastOrderedOty, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastOrderedOty, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.BatchNo, "BatchNo", htmlAttributes: new { @class = "form-control-label col-md-2" })
+                        <div class="">
+                            @Html.DropDownList("BatchNo", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BatchNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ItemType, "Item Type", htmlAttributes: new { @class = "form-control-label" })
+                        @Html.EditorFor(model => model.ItemType, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ItemType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Threshold, htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.Threshold, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Threshold, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    @Html.Label("Selling Price", htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.SellingPricePerPiece, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SellingPricePerPiece, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-control-label" })
+                    <div class="form-group">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "4" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-offset-2">
+                            <input type="submit" value="Add" class="btn btn-default btn-block" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts{
+    <script src="~/Content/assets/vendor/moment.min.js"></script>
+    <script src="~/Content/assets/vendor/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#dateMfg').datetimepicker({
+                icons: {
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-day",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                },
+                format: 'DD/MM/YYYY'
+            });
+            $('#dateExp').datetimepicker({
+                icons: {
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-day",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                },
+                format: 'DD/MM/YYYY'
+            });
+        });
+    </script>
+}

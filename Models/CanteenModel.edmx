@@ -1,0 +1,779 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Canteen_ManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BatchDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ItemQuantity" Type="int" Nullable="false" />
+          <Property Name="ItemPrice" Type="float" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderedOn" Type="datetime" />
+          <Property Name="OrderedBy" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="StockId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="AddedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CustomerOrderItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Price" Type="float" />
+        </EntityType>
+        <EntityType Name="CustomerOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="OrderTotal" Type="float" />
+          <Property Name="OrderedItems" Type="int" />
+          <Property Name="OrderedOn" Type="datetime" />
+          <Property Name="isConfirmed" Type="bit" />
+          <Property Name="ProcessedBy" Type="int" />
+          <Property Name="ProcessedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ItemImagePath" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitofMeasurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CostPricePerPiece" Type="float" Nullable="false" />
+          <Property Name="MfgDt" Type="datetime" Nullable="false" />
+          <Property Name="ExpDt" Type="datetime" Nullable="false" />
+          <Property Name="AvailableQty" Type="int" Nullable="false" />
+          <Property Name="LastOrderdOn" Type="date" Nullable="false" />
+          <Property Name="LastOrderedQty" Type="int" Nullable="false" />
+          <Property Name="BatchNo" Type="int" />
+          <Property Name="ItemType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Threshold" Type="int" Nullable="false" />
+          <Property Name="SellingPricePerPiece" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockBatch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TotalItems" Type="int" Nullable="false" />
+          <Property Name="TotalQuantity" Type="int" Nullable="false" />
+          <Property Name="TotalPrice" Type="float" Nullable="false" />
+          <Property Name="isComplete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserImagePath" Type="nvarchar" MaxLength="250" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="Gender" Type="nchar" MaxLength="10" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nvarchar" MaxLength="100" />
+          <Property Name="Pincode" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BatchDeta__ItemI__1A14E395">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="BatchDetails" Type="Self.BatchDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchDetails">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BatchDeta__Order__1B0907CE">
+          <End Role="StockBatch" Type="Self.StockBatch" Multiplicity="1" />
+          <End Role="BatchDetails" Type="Self.BatchDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockBatch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchDetails">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CartItems__Stock__1ED998B2">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CartItems__UserI__1DE57479">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Accep__24927208">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="CustomerOrders" Type="Self.CustomerOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrders">
+              <PropertyRef Name="ProcessedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Custo__22AA2996">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CustomerOrders" Type="Self.CustomerOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Order__286302EC">
+          <End Role="CustomerOrders" Type="Self.CustomerOrders" Multiplicity="1" />
+          <End Role="CustomerOrderItems" Type="Self.CustomerOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrderItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Stock__276EDEB3">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="CustomerOrderItems" Type="Self.CustomerOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrderItems">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__UserI__29572725">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CustomerOrderItems" Type="Self.CustomerOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrderItems">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__BatchNo__173876EA">
+          <End Role="StockBatch" Type="Self.StockBatch" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockBatch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="BatchNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__UserI__1273C1CD">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Canteen_ManagementModelStoreContainer">
+          <EntitySet Name="BatchDetails" EntityType="Self.BatchDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrderItems" EntityType="Self.CustomerOrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrders" EntityType="Self.CustomerOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockBatch" EntityType="Self.StockBatch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BatchDeta__ItemI__1A14E395" Association="Self.FK__BatchDeta__ItemI__1A14E395">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BatchDeta__Order__1B0907CE" Association="Self.FK__BatchDeta__Order__1B0907CE">
+            <End Role="StockBatch" EntitySet="StockBatch" />
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CartItems__Stock__1ED998B2" Association="Self.FK__CartItems__Stock__1ED998B2">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CartItems__UserI__1DE57479" Association="Self.FK__CartItems__UserI__1DE57479">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Accep__24927208" Association="Self.FK__CustomerO__Accep__24927208">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerOrders" EntitySet="CustomerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Custo__22AA2996" Association="Self.FK__CustomerO__Custo__22AA2996">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerOrders" EntitySet="CustomerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Order__286302EC" Association="Self.FK__CustomerO__Order__286302EC">
+            <End Role="CustomerOrders" EntitySet="CustomerOrders" />
+            <End Role="CustomerOrderItems" EntitySet="CustomerOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Stock__276EDEB3" Association="Self.FK__CustomerO__Stock__276EDEB3">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="CustomerOrderItems" EntitySet="CustomerOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__UserI__29572725" Association="Self.FK__CustomerO__UserI__29572725">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerOrderItems" EntitySet="CustomerOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__BatchNo__173876EA" Association="Self.FK__Stock__BatchNo__173876EA">
+            <End Role="StockBatch" EntitySet="StockBatch" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__UserI__1273C1CD" Association="Self.FK__UserProfi__UserI__1273C1CD">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Canteen_ManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BatchDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="ItemPrice" Type="Double" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderedOn" Type="DateTime" Precision="3" />
+          <Property Name="OrderedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StockBatch" Relationship="Self.FK__BatchDeta__Order__1B0907CE" FromRole="BatchDetails" ToRole="StockBatch" />
+          <NavigationProperty Name="Stock" Relationship="Canteen_ManagementModel.FK__BatchDeta__ItemI__1A14E395" FromRole="BatchDetails" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="StockId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="AddedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__CartItems__UserI__1DE57479" FromRole="CartItems" ToRole="Users" />
+          <NavigationProperty Name="Stock" Relationship="Canteen_ManagementModel.FK__CartItems__Stock__1ED998B2" FromRole="CartItems" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="CustomerOrderItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__CustomerO__UserI__29572725" FromRole="CustomerOrderItems" ToRole="Users" />
+          <NavigationProperty Name="Stock" Relationship="Canteen_ManagementModel.FK__CustomerO__Stock__276EDEB3" FromRole="CustomerOrderItems" ToRole="Stock" />
+          <NavigationProperty Name="CustomerOrders" Relationship="Canteen_ManagementModel.FK__CustomerO__Order__286302EC" FromRole="CustomerOrderItems" ToRole="CustomerOrders" />
+        </EntityType>
+        <EntityType Name="StockBatch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TotalItems" Type="Int32" Nullable="false" />
+          <Property Name="TotalQuantity" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+          <Property Name="isComplete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BatchDetails" Relationship="Self.FK__BatchDeta__Order__1B0907CE" FromRole="StockBatch" ToRole="BatchDetails" />
+          <NavigationProperty Name="Stock" Relationship="Canteen_ManagementModel.FK__Stock__BatchNo__173876EA" FromRole="StockBatch" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Pincode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__UserProfi__UserI__1273C1CD" FromRole="UserProfile" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__UserI__1DE57479" FromRole="Users" ToRole="CartItems" />
+          <NavigationProperty Name="CustomerOrderItems" Relationship="Self.FK__CustomerO__UserI__29572725" FromRole="Users" ToRole="CustomerOrderItems" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__UserProfi__UserI__1273C1CD" FromRole="Users" ToRole="UserProfile" />
+          <NavigationProperty Name="CustomerOrders" Relationship="Canteen_ManagementModel.FK__CustomerO__Accep__24927208" FromRole="Users" ToRole="CustomerOrders" />
+          <NavigationProperty Name="CustomerOrders1" Relationship="Canteen_ManagementModel.FK__CustomerO__Custo__22AA2996" FromRole="Users" ToRole="CustomerOrders" />
+        </EntityType>
+        <Association Name="FK__BatchDeta__Order__1B0907CE">
+          <End Role="StockBatch" Type="Self.StockBatch" Multiplicity="1" />
+          <End Role="BatchDetails" Type="Self.BatchDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockBatch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchDetails">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CartItems__UserI__1DE57479">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__UserI__29572725">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CustomerOrderItems" Type="Self.CustomerOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrderItems">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__UserI__1273C1CD">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Canteen_ManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BatchDetails" EntityType="Self.BatchDetails" />
+          <EntitySet Name="CartItems" EntityType="Self.CartItems" />
+          <EntitySet Name="CustomerOrderItems" EntityType="Self.CustomerOrderItems" />
+          <EntitySet Name="StockBatch" EntityType="Self.StockBatch" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK__BatchDeta__Order__1B0907CE" Association="Self.FK__BatchDeta__Order__1B0907CE">
+            <End Role="StockBatch" EntitySet="StockBatch" />
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CartItems__UserI__1DE57479" Association="Self.FK__CartItems__UserI__1DE57479">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__UserI__29572725" Association="Self.FK__CustomerO__UserI__29572725">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerOrderItems" EntitySet="CustomerOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__UserI__1273C1CD" Association="Self.FK__UserProfi__UserI__1273C1CD">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <EntitySet Name="Stock" EntityType="Canteen_ManagementModel.Stock" />
+          <AssociationSet Name="FK__BatchDeta__ItemI__1A14E395" Association="Canteen_ManagementModel.FK__BatchDeta__ItemI__1A14E395">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CartItems__Stock__1ED998B2" Association="Canteen_ManagementModel.FK__CartItems__Stock__1ED998B2">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Stock__276EDEB3" Association="Canteen_ManagementModel.FK__CustomerO__Stock__276EDEB3">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="CustomerOrderItems" EntitySet="CustomerOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__BatchNo__173876EA" Association="Canteen_ManagementModel.FK__Stock__BatchNo__173876EA">
+            <End Role="StockBatch" EntitySet="StockBatch" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <EntitySet Name="CustomerOrders" EntityType="Canteen_ManagementModel.CustomerOrders" />
+          <AssociationSet Name="FK__CustomerO__Order__286302EC" Association="Canteen_ManagementModel.FK__CustomerO__Order__286302EC">
+            <End Role="CustomerOrders" EntitySet="CustomerOrders" />
+            <End Role="CustomerOrderItems" EntitySet="CustomerOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Accep__24927208" Association="Canteen_ManagementModel.FK__CustomerO__Accep__24927208">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerOrders" EntitySet="CustomerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerO__Custo__22AA2996" Association="Canteen_ManagementModel.FK__CustomerO__Custo__22AA2996">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerOrders" EntitySet="CustomerOrders" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ItemImagePath" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitofMeasurement" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CostPricePerPiece" Type="Double" Nullable="false" />
+          <Property Name="MfgDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AvailableQty" Type="Int32" Nullable="false" />
+          <Property Name="LastOrderdOn" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastOrderedQty" Type="Int32" Nullable="false" />
+          <Property Name="BatchNo" Type="Int32" />
+          <Property Name="ItemType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Threshold" Type="Int32" Nullable="false" />
+          <Property Name="SellingPricePerPiece" Type="Double" Nullable="false" />
+          <NavigationProperty Name="BatchDetails" Relationship="Canteen_ManagementModel.FK__BatchDeta__ItemI__1A14E395" FromRole="Stock" ToRole="BatchDetails" />
+          <NavigationProperty Name="CartItems" Relationship="Canteen_ManagementModel.FK__CartItems__Stock__1ED998B2" FromRole="Stock" ToRole="CartItems" />
+          <NavigationProperty Name="CustomerOrderItems" Relationship="Canteen_ManagementModel.FK__CustomerO__Stock__276EDEB3" FromRole="Stock" ToRole="CustomerOrderItems" />
+          <NavigationProperty Name="StockBatch" Relationship="Canteen_ManagementModel.FK__Stock__BatchNo__173876EA" FromRole="Stock" ToRole="StockBatch" />
+        </EntityType>
+        <Association Name="FK__BatchDeta__ItemI__1A14E395">
+          <End Type="Canteen_ManagementModel.Stock" Role="Stock" Multiplicity="1" />
+          <End Type="Canteen_ManagementModel.BatchDetails" Role="BatchDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchDetails">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CartItems__Stock__1ED998B2">
+          <End Type="Canteen_ManagementModel.Stock" Role="Stock" Multiplicity="1" />
+          <End Type="Canteen_ManagementModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Stock__276EDEB3">
+          <End Type="Canteen_ManagementModel.Stock" Role="Stock" Multiplicity="1" />
+          <End Type="Canteen_ManagementModel.CustomerOrderItems" Role="CustomerOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrderItems">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__BatchNo__173876EA">
+          <End Type="Canteen_ManagementModel.StockBatch" Role="StockBatch" Multiplicity="0..1" />
+          <End Type="Canteen_ManagementModel.Stock" Role="Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockBatch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="BatchNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustomerOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OrderTotal" Type="Double" />
+          <Property Name="OrderedItems" Type="Int32" />
+          <Property Name="OrderedOn" Type="DateTime" Precision="3" />
+          <Property Name="isConfirmed" Type="Boolean" />
+          <Property Name="ProcessedBy" Type="Int32" />
+          <Property Name="ProcessedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CustomerOrderItems" Relationship="Canteen_ManagementModel.FK__CustomerO__Order__286302EC" FromRole="CustomerOrders" ToRole="CustomerOrderItems" />
+          <NavigationProperty Name="Users" Relationship="Canteen_ManagementModel.FK__CustomerO__Accep__24927208" FromRole="CustomerOrders" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="Canteen_ManagementModel.FK__CustomerO__Custo__22AA2996" FromRole="CustomerOrders" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK__CustomerO__Order__286302EC">
+          <End Type="Canteen_ManagementModel.CustomerOrders" Role="CustomerOrders" Multiplicity="1" />
+          <End Type="Canteen_ManagementModel.CustomerOrderItems" Role="CustomerOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrderItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Accep__24927208">
+          <End Type="Canteen_ManagementModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="Canteen_ManagementModel.CustomerOrders" Role="CustomerOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrders">
+              <PropertyRef Name="ProcessedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerO__Custo__22AA2996">
+          <End Type="Canteen_ManagementModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="Canteen_ManagementModel.CustomerOrders" Role="CustomerOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerOrders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Canteen_ManagementModelStoreContainer" CdmEntityContainer="Canteen_ManagementEntities">
+          <EntitySetMapping Name="BatchDetails">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.BatchDetails">
+              <MappingFragment StoreEntitySet="BatchDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderedOn" ColumnName="OrderedOn" />
+                <ScalarProperty Name="OrderedBy" ColumnName="OrderedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItems">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.CartItems">
+              <MappingFragment StoreEntitySet="CartItems">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrderItems">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.CustomerOrderItems">
+              <MappingFragment StoreEntitySet="CustomerOrderItems">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockBatch">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.StockBatch">
+              <MappingFragment StoreEntitySet="StockBatch">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TotalItems" ColumnName="TotalItems" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="isComplete" ColumnName="isComplete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="UserImagePath" ColumnName="UserImagePath" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="SellingPricePerPiece" ColumnName="SellingPricePerPiece" />
+                <ScalarProperty Name="Threshold" ColumnName="Threshold" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
+                <ScalarProperty Name="LastOrderedQty" ColumnName="LastOrderedQty" />
+                <ScalarProperty Name="LastOrderdOn" ColumnName="LastOrderdOn" />
+                <ScalarProperty Name="AvailableQty" ColumnName="AvailableQty" />
+                <ScalarProperty Name="ExpDt" ColumnName="ExpDt" />
+                <ScalarProperty Name="MfgDt" ColumnName="MfgDt" />
+                <ScalarProperty Name="CostPricePerPiece" ColumnName="CostPricePerPiece" />
+                <ScalarProperty Name="UnitofMeasurement" ColumnName="UnitofMeasurement" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemImagePath" ColumnName="ItemImagePath" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrders">
+            <EntityTypeMapping TypeName="Canteen_ManagementModel.CustomerOrders">
+              <MappingFragment StoreEntitySet="CustomerOrders">
+                <ScalarProperty Name="ProcessedOn" ColumnName="ProcessedOn" />
+                <ScalarProperty Name="ProcessedBy" ColumnName="ProcessedBy" />
+                <ScalarProperty Name="isConfirmed" ColumnName="isConfirmed" />
+                <ScalarProperty Name="OrderedOn" ColumnName="OrderedOn" />
+                <ScalarProperty Name="OrderedItems" ColumnName="OrderedItems" />
+                <ScalarProperty Name="OrderTotal" ColumnName="OrderTotal" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
