@@ -261,7 +261,6 @@
     <Content Include="Content\user-assets\js\prism.min.js" />
     <Content Include="Content\user-assets\js\theme.min.js" />
     <Content Include="Content\user-assets\js\vendor.min.js" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Models\CanteenModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
