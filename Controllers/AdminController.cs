@@ -87,6 +87,7 @@ namespace CanteenManagement.Controllers
                 return Redirect("/Home/Index");
             }
             SetCurrentUser();
+            SetAnalytics();
             return View();
         }
         // POST: Admin/AddStock
