@@ -17,6 +17,25 @@ namespace CanteenManagement.Controllers
                 ViewBag.CurrentUser = dc.UserProfile.Where(a => a.UserId == UserId).FirstOrDefault();
             }
         }
+        // GET: Analytics
+        private void SetAnalytics()
+        {
+            using(Canteen_ManagementEntities dc = new Canteen_ManagementEntities())
+            {
+                var todaysDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+                var startOfTthisMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                var firstDay = startOfTthisMonth;
+                var lastDay = startOfTthisMonth.AddDays(DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
+                double? totalSale = dc.CustomerOrders.Where(a=>a.isConfirmed==true).Sum(a => a.OrderTotal);
+                double? dailySale = dc.CustomerOrders.Where(a=>a.OrderedOn>=todaysDate && a.isConfirmed == true).Sum(a => a.OrderTotal);
+                double? monthlySale = dc.CustomerOrders.Where(a=>a.OrderedOn>=firstDay&&a.OrderedOn<=lastDay && a.isConfirmed == true).Sum(a => a.OrderTotal);
+                int totalUsers = dc.Users.Where(a=>a.isActive==true).Count();
+                ViewBag.TotalSale = totalSale==null?0:totalSale;
+                ViewBag.DailySale = dailySale == null ? 0 :dailySale;
+                ViewBag.MonthlySale = monthlySale == null ? 0 :monthlySale;
+                ViewBag.TotalUsers = totalUsers;
+            }
+        }
         // GET: Admin
         public ActionResult Index()
         {
@@ -56,6 +75,7 @@ namespace CanteenManagement.Controllers
                 ViewBag.Orders = orders;
             }
             SetCurrentUser();
+            SetAnalytics();
             return View();
         }
         // GET: Admin/AddStock
@@ -99,6 +119,7 @@ namespace CanteenManagement.Controllers
                     dc.SaveChanges();
                 }
                 SetCurrentUser();
+                SetAnalytics();
                 return RedirectToAction("AddStock");
             }
         }
@@ -117,6 +138,7 @@ namespace CanteenManagement.Controllers
                 var stockItems = new SelectList(dc.Stock.ToList(), "Id", "ItemName");
                 ViewData["StockItems"] = stockItems;
                 SetCurrentUser();
+                SetAnalytics();
                 return View();
             }
         }
@@ -165,6 +187,7 @@ namespace CanteenManagement.Controllers
                 returnStatus = "success";
             }
             SetCurrentUser();
+            SetAnalytics();
             return new JsonResult { Data = new { status = returnStatus } };
         }
         [HttpGet]
@@ -194,6 +217,7 @@ namespace CanteenManagement.Controllers
                 var stock = dc.Stock.OrderBy(a => a.AvailableQty).ToList();
                 ViewBag.StockList = stock;
                 SetCurrentUser();
+                SetAnalytics();
                 return View();
             }
         }
@@ -210,6 +234,7 @@ namespace CanteenManagement.Controllers
                 var orders = dc.CustomerOrders.Where(a=>a.isConfirmed==true).OrderBy(a => a.OrderedOn).ToList();
                 ViewBag.Bills = orders;
                 SetCurrentUser();
+                SetAnalytics();
                 return View();
             }
         }
@@ -238,6 +263,7 @@ namespace CanteenManagement.Controllers
                 //ViewBag.Order = order.CustomerName;
                 ViewBag.Order = order;
                 SetCurrentUser();
+                SetAnalytics();
                 return View();
             }
         }
